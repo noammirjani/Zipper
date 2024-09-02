@@ -1,14 +1,12 @@
 #include <iostream>
-#include <spdlog/spdlog.h>
+#include "archiver/Archiver.h"
 
-int main()
-{
-	std::cout << fmt::format("Hello!!!") << std::endl;
+int main(int argc, char **argv) {
 
-	for (int i = 0; i < 10; i++)
-	{
-		spdlog::info("Hello, spdlog! {}", i);
+	try {
+		Archiver().execute(argc, argv);
+	} catch (const std::exception &e) {
+		std::cerr << "Error parsing options: " << e.what() << std::endl;
+		return 1;
 	}
-
-	return 0;
 }
