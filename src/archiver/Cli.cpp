@@ -12,12 +12,13 @@ cxxopts::Options Cli::create(){
     // define the flags - <project name> <option> <type method> <filenames>
 	options.add_options()
     ("a,action", "Wanted action - compress or C/ decompress or D", cxxopts::value<std::string>()->default_value("compress"))
-    ("t,type", "Wanted type method - (zip), (7zip)", cxxopts::value<std::string>()->default_value("zip"))
+    ("t,type", "Wanted type method - (zip), (7zip) (tar) (rar)", cxxopts::value<std::string>()->default_value("zip"))
+    ("p,target-path", "Target path for compressing", cxxopts::value<std::string>())
     ("f,filenames", "The filenames (or directories) to process", cxxopts::value<std::vector<std::string>>())
     ("h,help", "Print usage")
     ;
 
-	options.positional_help("<project name> <action> <type> <filenames>");
+	options.positional_help("<project name> <action> <type> <target-path> <filenames>");
 	options.show_positional_help();
 
 	return options;
@@ -25,11 +26,11 @@ cxxopts::Options Cli::create(){
 
 
 void Cli::log(const cxxopts::ParseResult& result) const{
-    std::cout << "action: " << result["action"].as<std::string>() << "\ntype: " << result["type"].as<std::string>() << "\nfiles:";
+    std::cout << "action: " << result["action"].as<std::string>() << "\ntype: " << result["type"].as<std::string>() << "\ntarget-path: " << result["target-path"].as<std::string>();
 
 	auto vec = result["filenames"].as<std::vector<std::string>>();
 	for (const auto &x : vec) {
-		std::cout << x << " ";
+		std::cout << "\nfile:" << x;
 	}
 	std::cout << std::endl;
 }
@@ -37,7 +38,7 @@ void Cli::log(const cxxopts::ParseResult& result) const{
 
 std::optional<CommandInfo> Cli::read(){
 	
-    m_cliOptions.parse_positional({ "action", "type", "filenames"});
+    m_cliOptions.parse_positional({ "action", "type", "target-path", "filenames"});
     auto result{m_cliOptions.parse(m_argc, m_argv)};
 
     if (result.count("help")) {
@@ -50,6 +51,7 @@ std::optional<CommandInfo> Cli::read(){
         return CommandInfo(
             result["action"].as<std::string>(), 
             result["type"].as<std::string>(),
+            result["target-path"].as<std::string>(),
             result["filenames"].as<std::vector<std::string>>() 
         );
     }

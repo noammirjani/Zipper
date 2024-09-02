@@ -1,10 +1,12 @@
 #include "CommandInfo.h"
 
 // TODO: add fix format file
-CommandInfo::CommandInfo(const std::string &action, const std::string &type, const std::vector<std::string> &files)
-    : m_type(type), m_files(files)
+CommandInfo::CommandInfo(const std::string &action, const std::string &type, const std::string &targetPath, const std::vector<std::string> &files)
+    : m_type(type), m_files(files), m_targetPath(targetPath)
 {
     validateAction(action);
+   // validateFiles(files); 
+   // validatePath(targetPath);
 }
 
 void CommandInfo::validateAction(const std::string &action)
@@ -66,4 +68,20 @@ bool CommandInfo::isDirectory(const std::string &filePath) const
 {
     auto fileStat = fs::status(filePath);
     return fs::exists(fileStat) && fs::is_directory(fileStat);
+}
+
+std::string CommandInfo::action() const {
+    return m_action;
+}
+
+std::vector<std::string> CommandInfo::files() const {
+    return m_files;
+}
+
+std::string CommandInfo::type() const {
+    return m_type;
+}
+
+std::string CommandInfo::targetPath() const{
+    return m_targetPath;
 }

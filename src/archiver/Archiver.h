@@ -1,6 +1,6 @@
 #pragma once
-
 #include "Cli.h"
+#include "CommandHandler.h"
 
 class Archiver {
 public:
