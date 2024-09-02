@@ -1,0 +1,121 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "rm",
+            "args": [
+                "-rf",
+                "build"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "build_debug",
+            "type": "shell",
+            "command": "conan",
+            "args": [
+                "install",
+                ".",
+                "--output-folder=build",
+                "--build=missing",
+                "-s",
+                "build_type=Debug"
+            ],
+            "group": "build",
+            "dependsOn": "clean",
+            "problemMatcher": []
+        },
+        {
+            "label": "build_release",
+            "type": "shell",
+            "command": "conan",
+            "args": [
+                "install",
+                ".",
+                "--output-folder=build",
+                "--build=missing",
+                "-s",
+                "build_type=Release"
+            ],
+            "group": "build",
+            "dependsOn": "clean",
+            "problemMatcher": []
+        },
+        {
+            "label": "launch_debug",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-S ${workspaceFolder}",
+                "-B ${workspaceFolder}/build",
+                "-DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake",
+                "-DCMAKE_BUILD_TYPE=Debug",
+                "-DCMAKE_CXX_STANDARD=17"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": "build_debug",
+            "problemMatcher": []
+        },
+        {
+            "label": "launch_release",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-S ${workspaceFolder}",
+                "-B ${workspaceFolder}/build",
+                "-DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake",
+                "-DCMAKE_BUILD_TYPE=Release",
+                "-DCMAKE_CXX_STANDARD=17"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": "build_release",
+            "problemMatcher": []
+        },
+        {
+            "label": "build_debug_executable",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "${workspaceFolder}/build",
+                "--config",
+                "Debug"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": "launch_debug",
+            "problemMatcher": []
+        },
+        {
+            "label": "build_project",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "${workspaceFolder}/build",
+                "--config",
+                "Debug"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": "${workspaceFolder}/build",
+            "problemMatcher": []
+        }
+    ]
+}
