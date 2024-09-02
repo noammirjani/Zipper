@@ -1,6 +1,4 @@
 build:
-    tags:
-      - zipper
     script:
       - ./conan-install.sh
       - ./build/ZIPPER
