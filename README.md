@@ -1,19 +1,16 @@
-# Archiver 📦 - Cross-platform Compression Tool
+# Archiver 📦
+
 
 ## Introduction
 
 Archiver is a versatile file compression and decompression tool designed to simplify the process of managing compressed files. Whether you need to compress a single file or an entire directory, Archiver provides a seamless experience across different platforms.
 
 ## Run Locally
-
 1. Clone the project:
 
-   ```bash
+```bash
    git clone https://github.com/noammirjani/Zipper.git
-   ```
-
-````
-
+```
 2. Go to the project directory
 
 ```bash
@@ -29,16 +26,13 @@ cd Zipper
 ## Usage
 
 Archiver offers a simple command-line interface (CLI) for compressing and decompressing files. Use the following syntax:
-
 ` <project-name> <-c/-d flag> <-t type> <files/directories>`
 
 Flags:
-
 - `-c` or `--compress`: Compress files
 - `-d` or `--decompress`: Decompress files
 
-Types:
-
+Types (for now):
 - `zip`: Zip format
 - `7zip`: 7-Zip format
 
